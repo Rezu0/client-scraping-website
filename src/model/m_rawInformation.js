@@ -2,9 +2,10 @@ const { nanoid } = require('nanoid');
 const { client, DB_NAME } = require('../db/config');
 
 const db = client.db(DB_NAME);
-// const collectionVideoInfo = db.collection('scrapping_video_info');
-const collectionTry = db.collection('try_temp');
-const collectionLastUpdate = db.collection('last_updated_video');
+// const collectionVideoInfo = db.collection('scrapping_video_info'); INI LENGKAP TAPI CREATED_AT NYA TIDAK UNIQUE
+// const collectionTry = db.collection('try_temp'); FIELD LENGKAP TAPI TIDAK ADA TAGS NYA
+const collectionLastUpdate = db.collection('last_updated_video'); // FIELD HANYA TITLE LAST UPDATE SAJA
+const collectionVideo = db.collection('video_informations'); // FIELD LENGKAP DENGAN TAGS
 
 const createSlugVideo = (title) => {
   const sanitizedTitle = title.replace(/[^\w\s-]/g, '')
@@ -30,7 +31,7 @@ const insertRawInformation = async (data) => {
       created: new Date(Date.now() + index).toISOString(),
     }));
 
-    const result = await collectionTry.insertMany(insertData);
+    const result = await collectionVideo.insertMany(insertData);
     return result;
   } catch (err) {
     console.error(err);
