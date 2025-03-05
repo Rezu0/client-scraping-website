@@ -5,7 +5,7 @@ const db = client.db(DB_NAME);
 // const collectionVideoInfo = db.collection('scrapping_video_info'); INI LENGKAP TAPI CREATED_AT NYA TIDAK UNIQUE
 // const collectionTry = db.collection('try_temp'); FIELD LENGKAP TAPI TIDAK ADA TAGS NYA
 const collectionLastUpdate = db.collection('last_updated_video'); // FIELD HANYA TITLE LAST UPDATE SAJA
-const collectionVideo = db.collection('video_informations'); // FIELD LENGKAP DENGAN TAGS
+const collectionVideo = db.collection('new_videos'); // FIELD LENGKAP DENGAN TAGS
 
 const createSlugVideo = (title) => {
   const sanitizedTitle = title.replace(/[^\w\s-]/g, '')
