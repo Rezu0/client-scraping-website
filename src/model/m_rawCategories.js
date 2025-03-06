@@ -16,15 +16,17 @@ const createSlugCategories = (categories) => {
 const insertCategories = async (data) => {
   try {
     const duplicateData = await collectionCategories.find().toArray();
-    const checkingData = duplicateData.filter((item, index) => item.categories === data[index]);
+    const checkingData = data.filter(
+      (item) => !duplicateData.map((data) => data?.categories).includes(item)
+    );
 
-    if (checkingData.length !== 0) {
+    if (checkingData.length === 0) {
       return {
         status: false,
       };
     }
 
-    const insertCategoriesInformation = data.map((item, index) => ({
+    const insertCategoriesInformation = checkingData.map((item, index) => ({
       _id: nanoid(36),
       slug: createSlugCategories(item),
       categories: item,
