@@ -24,7 +24,7 @@ const init = async () => {
   //   const origin = request.headers.origin || '';
 
   //   if (!referer.includes(LINK_ALLOW) && !origin.includes(LINK_ALLOW)) {
-  //     return h.response('<h1>404 Not Found</h1><p>Halaman tidak ditemukan.</p>')
+  //     return h.response('<h1>PANTEEEEEKKKKKKK!!</h1>')
   //       .code(403)
   //       .type('text/html')
   //       .takeover();
