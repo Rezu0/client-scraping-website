@@ -6,7 +6,7 @@ const { handlerProxyVideo } = require('./src/handler/handlerVideoProxy');
 const routes = [
   {
     method: 'GET',
-    path: '/api/v1/xtape/sync',
+    path: '/api/v1/xtape/sync/videos',
     handler: handlerHomeXtape,
     options: {
       cors: true,
@@ -14,7 +14,7 @@ const routes = [
   },
   {
     method: 'GET',
-    path: '/api/v1/xtape/movies',
+    path: '/api/v1/xtape/sync/movies',
     handler: handlerMoviesXtape,
     options: {
       cors: true,
@@ -22,7 +22,7 @@ const routes = [
   },
   {
     method: 'GET',
-    path: '/api/v1/xtape/categories',
+    path: '/api/v1/xtape/sync/categories',
     handler: handlerCategoriesXtape,
     options: {
       cors: true,
