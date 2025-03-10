@@ -19,19 +19,19 @@ const init = async () => {
 
   server.route(routes);
 
-  // server.ext('onRequest', (request, h) => {
-  //   const referer = request.headers.referer || '';
-  //   const origin = request.headers.origin || '';
+  server.ext('onRequest', (request, h) => {
+    const referer = request.headers.referer || '';
+    const origin = request.headers.origin || '';
 
-  //   if (!referer.includes(LINK_ALLOW) && !origin.includes(LINK_ALLOW)) {
-  //     return h.response('<h1>PANTEEEEEKKKKKKK!!</h1>')
-  //       .code(403)
-  //       .type('text/html')
-  //       .takeover();
-  //   }
+    if (!referer.includes(LINK_ALLOW) && !origin.includes(LINK_ALLOW)) {
+      return h.response('<h1>PANTEEEEEKKKKKKK!!</h1>')
+        .code(403)
+        .type('text/html')
+        .takeover();
+    }
 
-  //   return h.continue;
-  // });
+    return h.continue;
+  });
 
   await connect();
   await server.start();
