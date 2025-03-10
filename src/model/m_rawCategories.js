@@ -43,6 +43,20 @@ const insertCategories = async (data) => {
   }
 };
 
+const getCategories = async () => {
+  try {
+    const getCategoriesData = await collectionCategories.find({},
+      { projection: { _id: 0, created: 0, } }
+    ).sort({ categories: 1 }).toArray();
+
+    return getCategoriesData;
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};
+
 module.exports = {
   insertCategories,
+  getCategories,
 };

@@ -1,4 +1,4 @@
-const { insertCategories } = require("../model/m_rawCategories");
+const { insertCategories, getCategories } = require("../model/m_rawCategories");
 const { _getCategoriesFooter } = require("../scrapping/_scrappingCategories");
 
 const handlerCategoriesXtape = async (response, h) => {
@@ -25,6 +25,31 @@ const handlerCategoriesXtape = async (response, h) => {
   }
 };
 
+const handlerGetCategoriesXtape = async (response, h) => {
+  try {
+    const categoriesModel = await getCategories();
+    if (categoriesModel.length === 0) {
+      return h.response({
+        status: 'fail',
+        message: 'Kategori kosong',
+      }).code(404);
+    }
+
+    return h.response({
+      status: 'success',
+      message: 'Kategori didapatkan',
+      data: categoriesModel,
+    }).code(200);
+  } catch (err) {
+    console.error(err);
+    return h.response({
+      status: 'fail',
+      message: 'Terjadi kesalahan',
+    }).code(400);
+  }
+};
+
 module.exports = {
   handlerCategoriesXtape,
+  handlerGetCategoriesXtape,
 };
