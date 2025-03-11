@@ -1,7 +1,7 @@
 const { _getNewVideosInformation } = require('../scrapping/_scrappingHome');
-const { insertRawInformation, getLastUpdateVideos, updateLastUpdateVideos } = require('../model/m_rawInformation');
+const { insertRawInformation, getLastUpdateVideos, updateLastUpdateVideos, getVideosPagination } = require('../model/m_rawInformation');
 
-const handlerHomeXtape = async (response, h) => {
+const handlerHomeXtape = async (request, h) => {
   try {
     const videoLastUpdate = await getLastUpdateVideos();
     const numberPages = 2;
@@ -62,6 +62,32 @@ const handlerHomeXtape = async (response, h) => {
   }
 };
 
+const handlerGetVideosPagination = async (request, h) => {
+  try {
+    const page = parseInt(request.query.page) || 1;
+    const limit = parseInt(request.query.limit) || 32;
+    const skip = (page - 1) * limit;
+
+    const fromModel = await getVideosPagination(skip, limit);
+
+    return h.response({
+      status: 'success',
+      succcess: 'Berhasil didapatkan',
+      data: fromModel.dataPagination,
+      pagination: {
+        totalData: fromModel.pagination.totalData,
+        totalPages: fromModel.pagination.totalPages,
+        currentPages: page,
+        perPage: limit
+      }
+    }).code(200);
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};
+
 module.exports = {
   handlerHomeXtape,
+  handlerGetVideosPagination,
 };

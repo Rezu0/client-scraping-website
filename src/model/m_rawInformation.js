@@ -65,6 +65,29 @@ const updateLastUpdateVideos = async (data, last) => {
   }
 };
 
+const getVideosPagination = async (skip, limit) => {
+  try {
+    const dataPagination = await  collectionVideo.find()
+      .skip(skip)
+      .limit(limit)
+      .toArray();
+
+    const totalData = await collectionVideo.countDocuments();
+    const totalPages = Math.ceil(totalData / limit);
+
+    return {
+      dataPagination,
+      pagination: {
+        totalData: totalData,
+        totalPages: totalPages,
+      }
+    };
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};
+
 // ini get all lalu cek apakah ada yang sama atau tidaknya jika ada maka hapus
 // const getAllVideos = async () => {
 //   try {
@@ -97,5 +120,6 @@ module.exports = {
   insertRawInformation,
   getLastUpdateVideos,
   updateLastUpdateVideos,
+  getVideosPagination,
   // getAllVideos
 };
