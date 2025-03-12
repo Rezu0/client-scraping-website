@@ -2,6 +2,8 @@ const axios = require('axios');
 const cheerio = require('cheerio');
 const { LINK_XTAPES_PAGES } = require('../utils/secrets.json');
 
+const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
 const _getNewVideosEmbed = async (link) => {
   try {
     const response = await axios.get(link);
@@ -53,11 +55,31 @@ const _getNewVideosInformation = async (numPages) => {
       });
     });
 
-    dataVideos.forEach(async (item) => {
-      const embedVideo = await _getNewVideosEmbed(item.link);
-      item.embedVideo = embedVideo.videoEmbeds;
-      item.tags = embedVideo.tags;
-    });
+    const result = [];
+    for (let index = 0; index < dataVideos.length; index += 32) {
+      const chunk = dataVideos.slice(index, index + 32).map(async (item) => {
+        await delay(50);
+
+        try {
+          const embedVideo = await _getNewVideosEmbed(item.link);
+          item.embedVideo = embedVideo.videoEmbeds;
+          item.tags = embedVideo.tags;
+        } catch (err) {
+          console.error("Gagal mengambil embed video untuk:", item.link, err);
+        }
+
+        return item;
+      });
+
+      const resolvedChunk = await Promise.all(chunk);
+      result.push(...resolvedChunk);
+    }
+
+    // dataVideos.forEach(async (item) => {
+    //   const embedVideo = await _getNewVideosEmbed(item.link);
+    //   item.embedVideo = embedVideo.videoEmbeds;
+    //   item.tags = embedVideo.tags;
+    // });
 
     return dataVideos.reverse();
   } catch (err) {
