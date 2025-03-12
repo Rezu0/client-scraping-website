@@ -29,21 +29,14 @@ const handlerHomeXtape = async (request, h) => {
       }).code(200);
     }
 
-    const insertNewVideos = await insertRawInformation(sliceData);
+    await insertRawInformation(sliceData);
     const updateLastVideo = await updateLastUpdateVideos(sliceData[sliceData.length - 1], videoLastUpdate);
 
     if (updateLastVideo.modifiedCount === 0) {
       return h.response({
-        status: 'error',
+        status: 'fail',
         message: 'Gagal mengupdate data terakhir!',
       }).code(500);
-    }
-
-    if (insertNewVideos.insertedCount === 0) {
-      return h.response({
-        status: 'success',
-        message: 'Tidak ada data baru!',
-      }).code(200);
     }
 
     return h.response({
