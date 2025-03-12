@@ -14,7 +14,7 @@ const handlerHomeXtape = async (request, h) => {
         setTimeout(() => {
           tempDataVideos.push(...xTapesVideos);
           resolve();
-        }, 800);
+        }, 100);
       });
     }
 
