@@ -65,9 +65,10 @@ const updateLastUpdateVideos = async (data, last) => {
   }
 };
 
-const getVideosPagination = async (skip, limit) => {
+const getVideosPagination = async (skip, limit, tags) => {
   try {
-    const dataPagination = await  collectionVideo.find()
+    const tagsChecking = tags ? { tags: { $all: tags } } : {};
+    const dataPagination = await  collectionVideo.find(tagsChecking)
       .sort({ created: -1 })
       .skip(skip)
       .limit(limit)
