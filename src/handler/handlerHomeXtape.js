@@ -58,7 +58,7 @@ const handlerHomeXtape = async (request, h) => {
 const handlerGetVideosPagination = async (request, h) => {
   try {
     const page = parseInt(request.query.page) || 1;
-    const limit = parseInt(request.query.limit) || 32;
+    const limit = parseInt(request.query.limit) || 35;
     const tags = request.query.tags;
     const checkingTags = (tags) ? tags.split(',') : false;
     const skip = (page - 1) * limit;
