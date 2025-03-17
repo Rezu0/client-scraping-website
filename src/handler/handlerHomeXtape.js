@@ -60,10 +60,11 @@ const handlerGetVideosPagination = async (request, h) => {
     const page = parseInt(request.query.page) || 1;
     const limit = parseInt(request.query.limit) || 35;
     const tags = request.query.tags;
+    const sort = request.query.sort;
     const checkingTags = (tags) ? tags.split(',') : false;
     const skip = (page - 1) * limit;
 
-    const fromModel = await getVideosPagination(skip, limit, checkingTags);
+    const fromModel = await getVideosPagination(skip, limit, checkingTags, sort);
 
     return h.response({
       status: 'success',

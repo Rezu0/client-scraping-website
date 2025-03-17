@@ -1,5 +1,6 @@
 const { nanoid } = require('nanoid');
 const { client, DB_NAME } = require('../db/config');
+const { sortChecking } = require('../utils/utils_sortchecking');
 
 const db = client.db(DB_NAME);
 // const collectionVideoInfo = db.collection('scrapping_video_info'); INI LENGKAP TAPI CREATED_AT NYA TIDAK UNIQUE
@@ -65,11 +66,12 @@ const updateLastUpdateVideos = async (data, last) => {
   }
 };
 
-const getVideosPagination = async (skip, limit, tags) => {
+const getVideosPagination = async (skip, limit, tags, sort) => {
   try {
     const tagsChecking = tags ? { tags: { $all: tags } } : {};
+    const sortCheckingValue = sortChecking(sort);
     const dataPagination = await collectionVideo.find(tagsChecking)
-      .sort({ created: -1 })
+      .sort(sortCheckingValue)
       .skip(skip)
       .limit(limit)
       .toArray();
