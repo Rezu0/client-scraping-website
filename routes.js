@@ -1,5 +1,5 @@
 const { handlerCategoriesXtape, handlerGetCategoriesXtape } = require('./src/handler/handlerCategoriesXtape');
-const { handlerHomeXtape, handlerGetVideosPagination } = require('./src/handler/handlerHomeXtape');
+const { handlerHomeXtape, handlerGetVideosPagination, handlerGetVideoDetail } = require('./src/handler/handlerHomeXtape');
 const { handlerMoviesXtape } = require('./src/handler/handlerMoviesXtape');
 const { handlerProxyVideo } = require('./src/handler/handlerVideoProxy');
 
@@ -40,6 +40,14 @@ const routes = [
     method: 'GET',
     path: '/api/xtape/videos',
     handler: handlerGetVideosPagination,
+    options: {
+      cors: true,
+    },
+  },
+  {
+    method: 'GET',
+    path: '/api/xtape/videos/{videoSlug}',
+    handler: handlerGetVideoDetail,
     options: {
       cors: true,
     },

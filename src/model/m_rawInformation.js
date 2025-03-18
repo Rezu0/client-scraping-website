@@ -92,6 +92,19 @@ const getVideosPagination = async (skip, limit, tags, sort) => {
   }
 };
 
+const getVideoDetail = async (slug) => {
+  try {
+    const dataVideoDetail = await collectionVideo.findOne({
+      slug: slug
+    }, { projection: { _id: 0, link: 0 } });
+
+    return dataVideoDetail;
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};
+
 // ini get all lalu cek apakah ada yang sama atau tidaknya jika ada maka hapus
 // const getAllVideos = async () => {
 //   try {
@@ -125,5 +138,6 @@ module.exports = {
   getLastUpdateVideos,
   updateLastUpdateVideos,
   getVideosPagination,
+  getVideoDetail,
   // getAllVideos
 };
