@@ -105,6 +105,19 @@ const getVideoDetail = async (slug) => {
   }
 };
 
+const getVideoRandomLimit = async () => {
+  try {
+    const dataVideoRandom = await collectionVideo.aggregate([
+      { $sample: { size: 6 } }, { $project: { _id: 0, link: 0 } }
+    ]).skip(0).limit(2000).sort({ created: -1 }).toArray();
+
+    return dataVideoRandom;
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};
+
 // ini get all lalu cek apakah ada yang sama atau tidaknya jika ada maka hapus
 // const getAllVideos = async () => {
 //   try {
@@ -139,5 +152,6 @@ module.exports = {
   updateLastUpdateVideos,
   getVideosPagination,
   getVideoDetail,
+  getVideoRandomLimit,
   // getAllVideos
 };

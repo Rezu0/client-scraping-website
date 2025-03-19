@@ -1,5 +1,5 @@
 const { _getNewVideosInformation } = require('../scrapping/_scrappingHome');
-const { insertRawInformation, getLastUpdateVideos, updateLastUpdateVideos, getVideosPagination, getVideoDetail } = require('../model/m_rawInformation');
+const { insertRawInformation, getLastUpdateVideos, updateLastUpdateVideos, getVideosPagination, getVideoDetail, getVideoRandomLimit } = require('../model/m_rawInformation');
 
 const handlerHomeXtape = async (request, h) => {
   try {
@@ -109,8 +109,33 @@ const handlerGetVideoDetail = async (request, h) => {
   }
 };
 
+const handlerGetRandomXtape = async (request, h) => {
+  try {
+    const randomData = await getVideoRandomLimit();
+    if (randomData.length === 0) {
+      return h.response({
+        status: 'fail',
+        message: 'Data tidak ditemukan!',
+      }).code(404);
+    }
+
+    return h.response({
+      status: 'success',
+      message: 'Data berhasil didapatkan!',
+      data: randomData,
+    }).code(200);
+  } catch (err) {
+    console.error(err);
+    return h.response({
+      status: 'error',
+      message: 'Internal server error',
+    }).code(500);
+  }
+};
+
 module.exports = {
   handlerHomeXtape,
   handlerGetVideosPagination,
-  handlerGetVideoDetail
+  handlerGetVideoDetail,
+  handlerGetRandomXtape,
 };
