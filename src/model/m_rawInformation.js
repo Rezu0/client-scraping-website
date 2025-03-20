@@ -108,8 +108,8 @@ const getVideoDetail = async (slug) => {
 const getVideoRandomLimit = async () => {
   try {
     const dataVideoRandom = await collectionVideo.aggregate([
-      { $sample: { size: 6 } }, { $project: { _id: 0, link: 0 } }
-    ]).skip(0).limit(2000).sort({ created: -1 }).toArray();
+      { $sample: { size: 12 } }, { $project: { _id: 0, link: 0 } }
+    ]).skip(0).limit(500).sort({ created: -1 }).toArray();
 
     return dataVideoRandom;
   } catch (err) {
