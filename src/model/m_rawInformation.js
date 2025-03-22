@@ -66,17 +66,19 @@ const updateLastUpdateVideos = async (data, last) => {
   }
 };
 
-const getVideosPagination = async (skip, limit, tags, sort) => {
+const getVideosPagination = async (skip, limit, tags, sort, search) => {
   try {
     const tagsChecking = tags ? { tags: { $all: tags } } : {};
+    const searchChecking = search ? { title: { $regex: search, $options: 'i' } } : {};
     const sortCheckingValue = sortChecking(sort);
-    const dataPagination = await collectionVideo.find(tagsChecking)
+    const filterQuery = { ...tagsChecking, ...searchChecking };
+    const dataPagination = await collectionVideo.find(filterQuery)
       .sort(sortCheckingValue)
       .skip(skip)
       .limit(limit)
       .toArray();
 
-    const totalData = await collectionVideo.countDocuments(tagsChecking);
+    const totalData = await collectionVideo.countDocuments(filterQuery);
     const totalPages = Math.ceil(totalData / limit);
 
     return {
