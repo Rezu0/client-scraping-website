@@ -1,7 +1,6 @@
 const { handlerCategoriesXtape, handlerGetCategoriesXtape } = require('./src/handler/handlerCategoriesXtape');
 const { handlerHomeXtape, handlerGetVideosPagination, handlerGetVideoDetail, handlerGetRandomXtape } = require('./src/handler/handlerHomeXtape');
 const { handlerMoviesXtape } = require('./src/handler/handlerMoviesXtape');
-const { handlerProxyVideo } = require('./src/handler/handlerVideoProxy');
 
 const routes = [
   {
@@ -60,14 +59,6 @@ const routes = [
       cors: true,
     },
   },
-  {
-    method: 'GET',
-    path: '/proxy/video/{videoId}',
-    handler: handlerProxyVideo,
-    options: {
-      cors: false,
-    },
-  }
 ];
 
 module.exports = routes;
